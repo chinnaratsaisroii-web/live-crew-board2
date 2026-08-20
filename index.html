@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ผังผู้ประจำจุด</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ข้อมูลจริงอยู่ในไฟล์ data.json  (เว็บจะโหลดไฟล์นั้นทุกครั้งที่เปิด)
+     ข้อมูลด้านล่างนี้เป็นตัวสำรอง ใช้ตอนเปิดไฟล์จากเครื่องโดยตรง
+     ═══════════════════════════════════════════════════════════════ -->
+<script id="data">
+const EVENT = {
+  "title": "การประชุม Meet งานประกันคุณภาพการศึกษา รอบ 5",
+  "place": "วิทยาลัยเทคนิคสุรินทร์",
+  "date": "วันที่ ......... เวลา .........",
+  "note": "จุด OB ทุกจุดมีผู้รับผิดชอบ 3 คน คือ คนถือกล้อง คนประสานงาน และครูผู้สอน",
+  "by": "ผู้จัดทำ ........................"
+};
+
+const POINTS = [
+  { no:1, code:"", name:"ประธานกรรมการประเมิน", zone:"กรรมการ", place:"", note:"", crew:[
+    { role:"ชื่อ", name:"", phone:"" } ]},
+
+  { no:2, code:"", name:"กรรมการ", zone:"กรรมการ", place:"", note:"", crew:[
+    { role:"ชื่อ", name:"", phone:"" } ]},
+
+  { no:3, code:"", name:"กรรมการและเลขานุการ", zone:"กรรมการ", place:"", note:"", crew:[
+    { role:"ชื่อ", name:"", phone:"" } ]},
+
+  { no:4, code:"", name:"ห้องประชุมหลัก", zone:"ควบคุม", place:"", note:"", crew:[
+    { role:"ผู้ดูแลห้องประชุม", name:"", phone:"" },
+    { role:"ผู้ประสานงาน", name:"", phone:"" },
+    { role:"พิธีกร 1", name:"", phone:"" },
+    { role:"พิธีกร 2", name:"", phone:"" } ]},
+
+  { no:5, code:"OB-1", name:"กล้องหน้าวิทยาลัย", zone:"จุด OB", place:"", note:"", crew:[
+    { role:"คนถือกล้อง", name:"", phone:"" },
+    { role:"คนประสานงาน", name:"", phone:"" },
+    { role:"พิธีกร 1", name:"", phone:"" } ]},
+
+  { no:6, code:"OB-2", name:"กล้องหน้าเสาธง", zone:"จุด OB", place:"", note:"", crew:[
+    { role:"คนถือกล้อง", name:"", phone:"" },
+    { role:"คนประสานงาน", name:"", phone:"" },
+    { role:"พิธีกร 1", name:"", phone:"" } ]},
+
+  { no:7, code:"OB-3", name:"แผนกวิชาช่างยนต์", zone:"จุด OB", place:"", note:"", crew:[
+    { role:"คนถือกล้อง", name:"", phone:"" },
+    { role:"คนประสานงาน", name:"", phone:"" },
+    { role:"ครูผู้สอน", name:"", phone:"" } ]},
+
+  { no:8, code:"OB-4", name:"แผนกวิชาช่างโยธา", zone:"จุด OB", place:"", note:"", crew:[
+    { role:"คนถือกล้อง", name:"นางสาวอนัญญา อ่อนตา", phone:"" },
+    { role:"คนประสานงาน", name:"นางสาวมัณฑนา นันติ", phone:"" },
+    { role:"ครูผู้สอน", name:"นายพนมกร ยะแสง", phone:"" } ]},
+
+  { no:9, code:"OB-5", name:"แผนกวิชาช่างไฟฟ้า", zone:"จุด OB", place:"", note:"", crew:[
+    { role:"คนถือกล้อง", name:"นายหัสดี  เถื่อนคำ", phone:"" },
+    { role:"คนประสานงาน", name:"นายยงยุทธ  สุขดี", phone:"" },
+    { role:"ครูผู้สอน", name:"นายชัยมงคล  สระแก้ว", phone:"" } ]},
+
+  { no:10, code:"OB-6", name:"แผนกวิชาเครื่องกลโรงงาน", zone:"จุด OB", place:"", note:"", crew:[
+    { role:"คนถือกล้อง", name:"นายยุทธนา ธุรานุช", phone:"" },
+    { role:"คนประสานงาน", name:"นายดานุพงษ์ แสงทอง", phone:"" },
+    { role:"ครูผู้สอน", name:"นายสรยุทธ พันธ์ทอง", phone:"" } ]},
+
+  { no:11, code:"OB-7", name:"แผนกวิชาช่างอิเล็กทรอนิกส์", zone:"จุด OB", place:"", note:"", crew:[
+    { role:"คนถือกล้อง", name:"นางสาวสมฤทัย รักษา", phone:"" },
+    { role:"คนประสานงาน", name:"นายพิเศษ ซ่อนกลิ่น", phone:"" },
+    { role:"ครูผู้สอน", name:"นายธารา  กำจัดศัตรูพ่าย", phone:"" } ]},
+
+  { no:12, code:"OB-8", name:"แผนกวิชาสำรวจ", zone:"จุด OB", place:"", note:"", crew:[
+    { role:"คนถือกล้อง", name:"นายณรงค์​  มิถุนาวงศ์", phone:"" },
+    { role:"คนประสานงาน", name:"นายณรงค์​  มิถุนาวงศ์", phone:"" },
+    { role:"ครูผู้สอน", name:"นายวัลลภ หวังสม", phone:"" } ]},
+
+  { no:13, code:"OB-9", name:"แผนกวิชาช่างก่อสร้าง", zone:"จุด OB", place:"", note:"", crew:[
+    { role:"คนถือกล้อง", name:"นายก่อการ วงศ์ศรี", phone:"" },
+    { role:"คนประสานงาน", name:"นายพัทธกรณ์ มีแก้ว", phone:"" },
+    { role:"ครูผู้สอน", name:"นายวีรยุทธ บุญรับ", phone:"" } ]},
+
+  { no:14, code:"OB-10", name:"แผนกวิชาช่างเชื่อมโลหะ", zone:"จุด OB", place:"", note:"", crew:[
+    { role:"คนถือกล้อง", name:"", phone:"" },
+    { role:"คนประสานงาน", name:"", phone:"" },
+    { role:"ครูผู้สอน", name:"", phone:"" } ]},
+
+  { no:15, code:"OB-11", name:"แผนกวิชาช่างเทคนิคการผลิต", zone:"จุด OB", place:"", note:"", crew:[
+    { role:"คนถือกล้อง", name:"นายอภิชัย ดาบทอง", phone:"" },
+    { role:"คนประสานงาน", name:"นายสิทธิพงษ์ บูรณ์เจริญ", phone:"" },
+    { role:"ครูผู้สอน", name:"นายชัยวัฒน์ นึกชนะ", phone:"" } ]},
+
+  { no:16, code:"OB-12", name:"แผนกวิชาช่างแมคคาทรอนิกส์", zone:"จุด OB", place:"", note:"", crew:[
+    { role:"คนถือกล้อง", name:"นายบุญวัฒน์ โพธิ์เงิน", phone:"" },
+    { role:"คนประสานงาน", name:"นายประกาศิต เอี่ยมมาลา", phone:"" },
+    { role:"ครูผู้สอน", name:"นางสาวปริญวัฒน์ บุญสิงห์", phone:"" } ]},
+
+  { no:17, code:"OB-13", name:"แผนกวิชาช่างเทคโนโลยีคอมพิวเตอร์", zone:"จุด OB", place:"", note:"", crew:[
+    { role:"คนถือกล้อง", name:"ชินราช สายสร้อย", phone:"" },
+    { role:"คนประสานงาน", name:"มินตรา ติวารัมย์", phone:"" },
+    { role:"ครูผู้สอน", name:"วรโชติ วรรณวงศ์", phone:"" } ]},
+
+  { no:18, code:"OB-14", name:"แผนกวิชาเทคนิคพื้นฐาน", zone:"จุด OB", place:"", note:"", crew:[
+    { role:"คนถือกล้อง", name:"", phone:"" },
+    { role:"คนประสานงาน", name:"", phone:"" },
+    { role:"ครูผู้สอน", name:"", phone:"" } ]},
+
+  { no:19, code:"OB-15", name:"แผนกวิชาสามัญสัมพันธ์", zone:"จุด OB", place:"", note:"", crew:[
+    { role:"คนถือกล้อง", name:"นายอนุชา ยืนยงค์วิวัฒน์ชัย", phone:"" },
+    { role:"คนประสานงาน", name:"นางอาภรณ์ หมายจันดี", phone:"" },
+    { role:"ครูผู้สอน", name:"นางสาวอภิศรา วัฒนทองกูล", phone:"" } ]},
+
+  { no:20, code:"OBS", name:"ห้องควบคุม (OBS)", zone:"ควบคุม", place:"", note:"", crew:[
+    { role:"ผู้ควบคุมกลาง", name:"", phone:"" },
+    { role:"ผู้ช่วยควบคุม", name:"", phone:"" } ]}
+];
+</script>
+
+<style>
+:root{
+  --p500:#3B82F6; --p600:#2563EB; --p700:#1D4ED8;
+  --s600:#7C3AED; --s700:#6D28D9;
+  --n50:#F8FAFC; --n100:#F1F5F9; --n200:#E2E8F0; --n700:#334155; --n900:#0F172A;
+  --success:#10B981; --warning:#D97706; --danger:#EF4444;
+  --grad:linear-gradient(135deg,#2563EB 0%,#4F46E5 55%,#7C3AED 100%);
+  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:24px;
+  --sh-sm:0 1px 2px rgba(15,23,42,.06);
+  --sh-md:0 4px 12px rgba(15,23,42,.08);
+  --sh-lg:0 12px 28px rgba(37,99,235,.16);
+  --f:"Prompt","IBM Plex Sans Thai",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--n50);color:var(--n900);font-family:var(--f);font-size:14px;font-weight:300;line-height:1.6;-webkit-text-size-adjust:100%}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px 120px}
+
+.hero{background:var(--grad);color:#fff;border-radius:0 0 var(--r-xl) var(--r-xl);box-shadow:var(--sh-lg)}
+.hero__in{max-width:1200px;margin:0 auto;padding:26px 20px 30px;text-align:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);font-size:12px;font-weight:500}
+.dot{width:7px;height:7px;border-radius:50%;background:#fff;opacity:.9}
+h1{font-size:clamp(22px,3.6vw,32px);font-weight:700;margin:12px 0 0;line-height:1.3}
+.hero p{margin:6px 0 0;font-size:14px;font-weight:300;color:rgba(255,255,255,.88)}
+
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:#fff;border-radius:var(--r-lg);box-shadow:var(--sh-md);padding:12px;margin:-22px auto 0;position:relative;z-index:5}
+.search{flex:1 1 240px;position:relative}
+.search input{width:100%;padding:12px 14px 12px 42px;border-radius:var(--r-md);border:1px solid var(--n200);background:var(--n50);font-family:var(--f);font-size:14px;font-weight:300}
+.search input::placeholder{color:#94A3B8}
+.search input:focus{background:#fff;border-color:var(--p500);outline:none}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);stroke:#94A3B8}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{min-height:44px;padding:0 16px;border-radius:var(--r-md);border:1px solid var(--n200);background:#fff;color:var(--n700);font-family:var(--f);font-size:14px;cursor:pointer;transition:.16s}
+.chip[aria-pressed="true"]{background:var(--grad);border-color:transparent;color:#fff;font-weight:500;box-shadow:var(--sh-md)}
+.chip:hover{border-color:var(--p500);color:var(--p700)}
+.chip[aria-pressed="true"]:hover{color:#fff}
+:focus-visible{outline:2px solid var(--p600);outline-offset:2px}
+
+.btn{min-height:44px;padding:0 18px;border-radius:var(--r-md);border:1px solid transparent;font-family:var(--f);font-size:14px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.16s;white-space:nowrap}
+.btn--main{background:var(--grad);color:#fff;box-shadow:var(--sh-md)}
+.btn--main:hover{filter:brightness(1.07)}
+.btn--ghost{background:#fff;border-color:var(--n200);color:var(--n700)}
+.btn--ghost:hover{border-color:var(--p500);color:var(--p700)}
+.btn--save{background:var(--success);color:#fff}
+.btn--save:hover{filter:brightness(1.06)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+
+.editbar{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:40;display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;background:#fff;border:1px solid var(--n200);border-radius:var(--r-lg);box-shadow:var(--sh-lg);padding:10px 12px;max-width:calc(100% - 20px)}
+.editbar .pw{width:150px;min-height:40px;padding:6px 12px;border:1px solid var(--n200);border-radius:var(--r-md);font-family:var(--f);font-size:14px}
+.editbar .pw:focus{border-color:var(--p500);outline:none}
+.msg{font-size:12.5px;color:var(--n700);flex-basis:100%;text-align:center;order:9}
+.msg.ok{color:var(--success)}
+.msg.err{color:var(--danger)}
+.msg b{color:var(--warning);font-weight:500}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:18px}
+.stat{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--n200);border-radius:var(--r-lg);box-shadow:var(--sh-sm);padding:16px 18px}
+.stat__ico{flex:none;width:44px;height:44px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:19px}
+.stat:nth-child(1) .stat__ico{background:#DBEAFE}
+.stat:nth-child(2) .stat__ico{background:#EDE9FE}
+.stat:nth-child(3) .stat__ico{background:#FEF3C7}
+.stat b{display:block;font-size:24px;font-weight:600;line-height:1.25}
+.stat span{color:#64748B;font-size:12px}
+.stat--todo b{color:var(--warning)}
+
+.band{display:flex;align-items:center;gap:12px;font-size:18px;font-weight:600;margin:30px 0 14px}
+.band::before{content:"";width:5px;height:24px;border-radius:99px;background:var(--grad)}
+.band em{font-style:normal;font-size:12px;font-weight:400;color:#94A3B8;background:var(--n100);border-radius:999px;padding:3px 10px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.pt{background:#fff;border:1px solid var(--n200);border-radius:var(--r-lg);box-shadow:var(--sh-sm);overflow:hidden;display:flex;flex-direction:column;transition:.18s}
+.pt:hover{box-shadow:var(--sh-md)}
+.pt__top{display:flex;gap:12px;align-items:flex-start;padding:16px 16px 12px}
+.num{flex:none;width:38px;height:38px;border-radius:var(--r-md);background:var(--grad);color:#fff;font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center;box-shadow:var(--sh-sm)}
+.pt[data-zone="กรรมการ"] .num{background:linear-gradient(135deg,#1E40AF,#2563EB)}
+.pt[data-zone="ควบคุม"] .num{background:linear-gradient(135deg,#6D28D9,#8B5CF6)}
+.pt__id{min-width:0}
+.pt__name{margin:0;font-size:16px;font-weight:600;line-height:1.4}
+.code{display:inline-block;margin-top:4px;padding:2px 10px;border-radius:999px;background:#EDE9FE;color:var(--s700);font-size:12px;font-weight:500}
+.pt__place{margin:4px 0 0;color:#64748B;font-size:12px}
+
+.crew{list-style:none;margin:0;padding:0 16px 6px}
+.crew__row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--n100)}
+.crew__txt{min-width:0;flex:1}
+.crew__role{display:block;font-size:12px;color:#64748B}
+.crew__name{display:block;font-size:15px;font-weight:400;overflow-wrap:anywhere}
+.crew__name.is-empty{color:var(--warning)}
+.call{flex:none;min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:0 16px;border-radius:var(--r-md);text-decoration:none;font-size:13px;font-weight:500;background:#EFF6FF;color:var(--p700);border:1px solid #DBEAFE;transition:.16s}
+.call:hover{background:var(--p600);border-color:var(--p600);color:#fff}
+.pt__foot{margin-top:auto;padding:11px 16px;border-top:1px solid var(--n100);background:var(--n50);color:#64748B;font-size:12px}
+
+.is-editing .pt{border-color:#C7D2FE;box-shadow:0 0 0 3px rgba(99,102,241,.07)}
+.erow{display:grid;grid-template-columns:104px minmax(0,1fr) 122px 36px;gap:8px;align-items:center;width:100%}
+.in{width:100%;min-height:40px;padding:6px 10px;border:1px solid var(--n200);border-radius:var(--r-sm);font-family:var(--f);font-size:14px;font-weight:300;background:#fff}
+.in::placeholder{color:#94A3B8}
+.in:focus{border-color:var(--p500);outline:none;box-shadow:0 0 0 3px rgba(59,130,246,.15)}
+.in--role{background:var(--n50);font-size:12.5px;color:var(--n700)}
+.del{width:36px;height:36px;border-radius:var(--r-sm);border:1px solid #FECACA;background:#FEF2F2;color:var(--danger);font-size:15px;line-height:1;cursor:pointer}
+.del:hover{background:var(--danger);color:#fff}
+.add{width:100%;min-height:40px;margin:2px 0 12px;border:1px dashed #C7D2FE;background:#F5F7FF;color:var(--p700);border-radius:var(--r-sm);font-family:var(--f);font-size:13px;cursor:pointer}
+.add:hover{background:#EEF2FF;border-color:var(--p500)}
+@media (max-width:560px){.erow{grid-template-columns:1fr 1fr;grid-template-areas:"role role" "name name" "tel del"}
+ .in--role{grid-area:role}.in--name{grid-area:name}.in--tel{grid-area:tel}.del{grid-area:del;justify-self:end}}
+
+.empty{border:1px dashed var(--n200);border-radius:var(--r-lg);padding:40px 20px;text-align:center;color:#64748B;margin-top:20px;background:#fff}
+.how{margin-top:32px;border:1px solid var(--n200);border-radius:var(--r-lg);background:#fff;box-shadow:var(--sh-sm)}
+.how summary{cursor:pointer;padding:16px 18px;font-weight:500;list-style:none}
+.how summary::-webkit-details-marker{display:none}
+.how summary::before{content:"＋ ";color:var(--s600)}
+.how[open] summary::before{content:"－ "}
+.how div{padding:0 18px 18px;color:var(--n700);font-size:14px}
+.how code{font-family:ui-monospace,monospace;background:var(--n100);border-radius:6px;padding:2px 7px;color:var(--s700);font-size:12.5px}
+.how ol{margin:8px 0 0;padding-left:20px}
+.how li{margin:7px 0}
+.by{margin-top:20px;color:#94A3B8;font-size:12px;text-align:center}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{
+  body{background:#fff}
+  .hero{border-radius:0;box-shadow:none;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .tools,.how,.call,.editbar{display:none}
+  .grid{grid-template-columns:1fr 1fr;gap:8px}
+  .pt{break-inside:avoid;box-shadow:none}
+  .num,.band::before{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero__in">
+    <span class="eyebrow"><span class="dot"></span>ผังผู้รับผิดชอบประจำจุด</span>
+    <h1>แบบฟอร์มรายชื่อผู้ประจำจุด</h1>
+    <p id="evTitle"></p>
+    <p id="evNote"></p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="tools">
+    <div class="search">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="ค้นหารหัสจุด ชื่อคน หรือหน้าที่ เช่น OB-13 / ช่างไฟฟ้า" autocomplete="off">
+    </div>
+    <div class="chips" id="chips"></div>
+    <button class="btn btn--main" id="editBtn">✏️ แก้ไขรายชื่อ</button>
+  </div>
+
+  <section class="stats" aria-live="polite">
+    <div class="stat"><span class="stat__ico">📍</span><span><b id="nPoint">0</b><span>จุดที่แสดง</span></span></div>
+    <div class="stat"><span class="stat__ico">👥</span><span><b id="nCrew">0</b><span>ผู้รับผิดชอบ</span></span></div>
+    <div class="stat stat--todo"><span class="stat__ico">✏️</span><span><b id="nTodo">0</b><span>ยังไม่ได้ใส่ชื่อ</span></span></div>
+  </section>
+
+  <div id="board"></div>
+  <div class="empty" id="empty" hidden>ไม่พบจุดที่ตรงกับคำค้น — ลองพิมพ์รหัส เช่น <code>OB-5</code> หรือหน้าที่ เช่น <code>คนถือกล้อง</code></div>
+
+  <details class="how">
+    <summary>วิธีใช้งาน</summary>
+    <div>
+      <ol>
+        <li>กด <b>✏️ แก้ไขรายชื่อ</b> แล้วพิมพ์ชื่อกับเบอร์ได้เลย ปุ่ม ＋ ไว้เพิ่มคน ปุ่ม ✕ ไว้ลบแถว</li>
+        <li>ใส่รหัสผ่านในช่องแถบล่าง แล้วกด <b>☁️ บันทึกขึ้น GitHub</b> ข้อมูลจะถูกเขียนลงไฟล์ <code>data.json</code> ใน GitHub และเว็บบน Vercel จะอัปเดตตามภายใน 1-2 นาที</li>
+        <li>ปุ่ม <b>💾 บันทึกเป็นไฟล์</b> ไว้เก็บสำเนาลงเครื่อง ใช้ได้แม้ไม่มีอินเทอร์เน็ต</li>
+        <li>กด <b>Ctrl+P</b> เพื่อพิมพ์เป็นเอกสารติดห้องควบคุม</li>
+      </ol>
+    </div>
+  </details>
+
+  <p class="by" id="evBy"></p>
+</main>
+
+<div class="editbar" id="editbar" hidden>
+  <input class="pw" id="pw" type="password" placeholder="รหัสผ่าน" autocomplete="current-password">
+  <button class="btn btn--save" id="cloudBtn">☁️ บันทึกขึ้น GitHub</button>
+  <button class="btn btn--ghost" id="saveBtn">💾 บันทึกเป็นไฟล์</button>
+  <button class="btn btn--ghost" id="doneBtn">เสร็จสิ้น</button>
+  <p class="msg" id="msg">โหมดแก้ไข</p>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+let zoneFilter = "ทั้งหมด", term = "", editing = false, dirty = false;
+const BAND = {
+  "กรรมการ": ["คณะกรรมการประเมิน", "หมายเลข 1–3"],
+  "ควบคุม": ["ห้องประชุมหลักและห้องควบคุม", "หมายเลข 4 และ 20"],
+  "จุด OB": ["รายชื่อผู้ประจำจุด OB", "หมายเลข 5–19"]
+};
+let zones = [];
+
+/* ── โหลดข้อมูลจาก data.json (ถ้ามี) ── */
+async function boot(){
+  try{
+    const r = await fetch("data.json?t=" + Date.now(), { cache: "no-store" });
+    if (r.ok){
+      const j = await r.json();
+      if (j && Array.isArray(j.points) && j.points.length){
+        Object.assign(EVENT, j.event || {});
+        POINTS.length = 0; POINTS.push(...j.points);
+      }
+    }
+  }catch(e){ /* เปิดไฟล์จากเครื่อง — ใช้ข้อมูลสำรองในไฟล์ */ }
+  init();
+}
+
+function init(){
+  $("#evTitle").textContent = [EVENT.title, EVENT.place, EVENT.date].filter(Boolean).join(" · ");
+  $("#evNote").textContent  = EVENT.note;
+  $("#evBy").textContent    = EVENT.by || "";
+  document.title = (EVENT.title || "ผังผู้ประจำจุด") + " — ผังผู้ประจำจุด";
+
+  POINTS.sort((a, b) => a.no - b.no);
+  zones = [...new Set(POINTS.map(p => p.zone))];
+  $("#chips").innerHTML = ["ทั้งหมด", ...zones]
+    .map(z => `<button class="chip" data-z="${esc(z)}" aria-pressed="${z === "ทั้งหมด"}">${esc(z)}</button>`).join("");
+  render();
+}
+
+$("#chips").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  zoneFilter = b.dataset.z;
+  document.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c === b));
+  render();
+});
+$("#q").addEventListener("input", e => { term = e.target.value.trim().toLowerCase(); render(); });
+
+const hay = p => [p.no, p.code, p.name, p.zone, p.place, p.note,
+  ...p.crew.flatMap(c => [c.role, c.name, c.phone])].join(" ").toLowerCase();
+
+function card(p){
+  const pi = POINTS.indexOf(p);
+  const rows = p.crew.map((c, ci) => editing
+    ? `<li class="crew__row"><span class="erow">
+         <input class="in in--role" data-pi="${pi}" data-ci="${ci}" data-k="role" value="${esc(c.role)}" placeholder="หน้าที่">
+         <input class="in in--name" data-pi="${pi}" data-ci="${ci}" data-k="name" value="${esc(c.name)}" placeholder="ชื่อ-สกุล">
+         <input class="in in--tel" data-pi="${pi}" data-ci="${ci}" data-k="phone" value="${esc(c.phone)}" placeholder="เบอร์โทร" inputmode="tel">
+         <button class="del" data-del="${pi}" data-ci="${ci}" aria-label="ลบแถวนี้">✕</button>
+       </span></li>`
+    : `<li class="crew__row">
+         <span class="crew__txt">
+           <span class="crew__role">${esc(c.role)}</span>
+           <span class="crew__name${c.name ? "" : " is-empty"}">${c.name ? esc(c.name) : "ยังไม่ได้ใส่ชื่อ"}</span>
+         </span>
+         ${c.phone ? `<a class="call" href="tel:${esc(String(c.phone).replace(/[^\d+]/g, ""))}">โทร</a>` : ""}
+       </li>`).join("");
+
+  return `<article class="pt" data-zone="${esc(p.zone)}">
+    <div class="pt__top">
+      <span class="num">${esc(p.no)}</span>
+      <span class="pt__id">
+        <h3 class="pt__name">${esc(p.name)}</h3>
+        ${p.code ? `<span class="code">${esc(p.code)}</span>` : ""}
+        ${p.place ? `<p class="pt__place">${esc(p.place)}</p>` : ""}
+      </span>
+    </div>
+    <ul class="crew">${rows}</ul>
+    ${editing ? `<div style="padding:0 16px"><button class="add" data-add="${pi}">＋ เพิ่มผู้รับผิดชอบ</button></div>` : ""}
+    <footer class="pt__foot">${p.note ? esc(p.note) : `ผู้รับผิดชอบ ${p.crew.length} คน`}</footer>
+  </article>`;
+}
+
+const visible = () => POINTS.filter(p =>
+  (zoneFilter === "ทั้งหมด" || p.zone === zoneFilter) &&
+  (!term || hay(p).includes(term)));
+
+function stats(list){
+  const crew = list.flatMap(p => p.crew);
+  $("#nPoint").textContent = list.length;
+  $("#nCrew").textContent  = crew.length;
+  $("#nTodo").textContent  = crew.filter(c => !c.name).length;
+}
+
+function render(){
+  const list = visible();
+  $("#board").innerHTML = zones.map(z => {
+    const inZone = list.filter(p => p.zone === z);
+    if (!inZone.length) return "";
+    const [t, sub] = BAND[z] || [z, ""];
+    return `<h2 class="band">${esc(t)}${sub ? `<em>${esc(sub)}</em>` : ""}</h2>
+            <div class="grid">${inZone.map(card).join("")}</div>`;
+  }).join("");
+  $("#empty").hidden = list.length > 0;
+  stats(list);
+}
+
+/* ── โหมดแก้ไข ── */
+function say(text, kind){ const m = $("#msg"); m.className = "msg" + (kind ? " " + kind : ""); m.innerHTML = text; }
+function setDirty(v){ dirty = v; if (v) say("<b>ยังไม่ได้บันทึก</b>"); }
+function setEditing(v){
+  editing = v;
+  document.body.classList.toggle("is-editing", v);
+  $("#editbar").hidden = !v;
+  $("#editBtn").textContent = v ? "👁 ดูอย่างเดียว" : "✏️ แก้ไขรายชื่อ";
+  if (v && !dirty) say("โหมดแก้ไข");
+  render();
+}
+$("#editBtn").addEventListener("click", () => setEditing(!editing));
+$("#doneBtn").addEventListener("click", () => setEditing(false));
+
+$("#board").addEventListener("input", e => {
+  const el = e.target.closest(".in"); if (!el) return;
+  POINTS[+el.dataset.pi].crew[+el.dataset.ci][el.dataset.k] = el.value;
+  setDirty(true); stats(visible());
+});
+$("#board").addEventListener("click", e => {
+  const del = e.target.closest(".del");
+  if (del){ POINTS[+del.dataset.del].crew.splice(+del.dataset.ci, 1); setDirty(true); render(); return; }
+  const add = e.target.closest(".add");
+  if (add){ POINTS[+add.dataset.add].crew.push({ role:"ผู้รับผิดชอบ", name:"", phone:"" }); setDirty(true); render(); }
+});
+
+/* ── บันทึกขึ้น GitHub ── */
+$("#cloudBtn").addEventListener("click", async () => {
+  const password = $("#pw").value.trim();
+  if (!password) return say("กรอกรหัสผ่านก่อนครับ", "err");
+  const btn = $("#cloudBtn");
+  btn.disabled = true; say("กำลังบันทึก...");
+  try{
+    const r = await fetch("/api/save", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password, data: { event: EVENT, points: POINTS } })
+    });
+    const j = await r.json().catch(() => ({}));
+    if (r.ok && j.ok){
+      setDirty(false);
+      say(`✓ บันทึกขึ้น GitHub แล้ว (${j.commit || "ok"}) เว็บจะอัปเดตใน 1-2 นาที`, "ok");
+    } else {
+      say("✕ " + (j.error || "บันทึกไม่สำเร็จ") + " — ลองใช้ปุ่มบันทึกเป็นไฟล์แทน", "err");
+    }
+  }catch(e){
+    say("✕ ติดต่อเซิร์ฟเวอร์ไม่ได้ (ถ้าเปิดไฟล์จากเครื่องให้ใช้ปุ่มบันทึกเป็นไฟล์)", "err");
+  }
+  btn.disabled = false;
+});
+
+/* ── บันทึกเป็นไฟล์สำรอง ── */
+$("#saveBtn").addEventListener("click", () => {
+  const blob = new Blob([JSON.stringify({ event: EVENT, points: POINTS }, null, 2)], { type: "application/json;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "data.json";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  say("ดาวน์โหลด data.json แล้ว — นำไปวางทับใน GitHub ได้เลย", "ok");
+});
+
+window.addEventListener("beforeunload", e => { if (dirty) e.preventDefault(); });
+
+boot();
+</script>
+</body>
+</html>
